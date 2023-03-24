@@ -13,13 +13,10 @@ import yaml from "js-yaml";
 import { Cron } from "react-js-cron";
 import "react-js-cron/dist/styles.css";
 
-import INPUTS from "./inputs";
+// import INPUTS from "./inputs";
 
 export default function ExampleFileBlock(props: FileBlockProps) {
-  const { context, content } = props;
-  const language = Boolean(context.path)
-    ? getLanguageFromFilename(context.path)
-    : "N/A";
+  const { content, onUpdateContent } = props;
 
   const data = yaml.load(content);
 
@@ -27,6 +24,8 @@ export default function ExampleFileBlock(props: FileBlockProps) {
   const [{ cron }] = data.on.schedule;
 
   const [cronValue, cronSetValue] = useState("30 5 * * 1,6");
+  const [workflowSource, setWorkflowSource] = useState({});
+  const [error, setError] = useState(null);
 
   const [
     [
@@ -39,11 +38,11 @@ export default function ExampleFileBlock(props: FileBlockProps) {
   ] = Object.entries(data.jobs);
 
   if (extraJob || extraStep) {
-    return toError("Only one job with one step is currently supported.");
+    setError("Only one job with one step is currently supported.");
   }
 
   if (version !== "actions/stale@v7") {
-    return toError("Only actions/stale@v7 is currently supported.");
+    setError("Only actions/stale@v7 is currently supported.");
   }
 
   return (
@@ -186,25 +185,4 @@ export default function ExampleFileBlock(props: FileBlockProps) {
       </p>
     </Box>
   );
-}
-
-function toError(message: string) {
-  return <Box p={4}>Error: {message}</Box>;
-}
-
-function toInput(
-  name: string,
-  type: "string" | "textarea" | "number" | "boolean",
-  inputDefault: string
-) {
-  switch (type) {
-    case "string":
-      return <input name={name} type="text" placeholder={inputDefault} />;
-    case "textarea":
-      return <textarea name={name} placeholder={inputDefault} />;
-    case "number":
-      return <input name={name} type="number" placeholder={inputDefault} />;
-    case "boolean":
-      return <input name={name} type="checkbox" placeholder={inputDefault} />;
-  }
 }

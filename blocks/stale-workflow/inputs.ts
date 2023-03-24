@@ -1,3 +1,4 @@
+// based on https://github.com/actions/stale/blob/1160a2240286f5da8ec72b1c0816ce2481aabf84/action.yml
 const INPUTS: Record<
   string,
   {
