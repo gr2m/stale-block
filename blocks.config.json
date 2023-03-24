@@ -10,10 +10,10 @@
   },
   {
     "type": "file",
-    "id": "stale-settings",
-    "title": "Stale Settings",
+    "id": "stale-workflow",
+    "title": "Stale Workflow Settings",
     "description": "WIP",
-    "entry": "blocks/stale-settings/index.tsx",
+    "entry": "blocks/stale-workflow/index.tsx",
     "matches": [".github/workflows/*stale*.yml"],
     "example_path": "https://example.com"
   },
